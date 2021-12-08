@@ -1,0 +1,12 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group 'net.corda.cli'
+version '1.0-SNAPSHOT'
+
+gradle.ext.pluginsDir = file("$buildDir/plugins")
+
+tasks.named("build") {
+    dependsOn(":app:fatJar")
+}

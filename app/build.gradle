@@ -1,0 +1,43 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id "application"
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    implementation "org.slf4j:slf4j-log4j12:${log4j12Version}"
+    implementation "org.pf4j:pf4j:${pf4jVersion}"
+    implementation "org.apache.commons:commons-lang3:${appacheCommonsVersion}"
+    implementation project(":api")
+    api "info.picocli:picocli:${picocliVersion}"
+}
+
+application {
+    mainClass = "net.corda.cli.application.BootKt"
+}
+
+def pluginsDir = gradle.ext.pluginsDir
+
+tasks.named("run", JavaExec) {
+    System.setProperty("pf4j.pluginsDir", pluginsDir.absolutePath.toString())
+}
+
+tasks.register("fatJar", Jar) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    dependsOn(tasks.named("compileKotlin"))
+//    archiveClassifier.set("fat")
+
+    from(sourceSets.main)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    })
+    manifest {
+        attributes["Main-Class"] = application.mainClass
+    }
+
+    archiveBaseName = "corda-cli"
+}

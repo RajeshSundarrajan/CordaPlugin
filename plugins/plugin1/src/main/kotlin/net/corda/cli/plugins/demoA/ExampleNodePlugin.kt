@@ -11,16 +11,10 @@ import picocli.CommandLine
 
 class ExampleNodePlugin(wrapper: PluginWrapper) : Plugin(wrapper) {
     override fun start() {
-        logger.info("ExampleNodePlugin.start()")
-        logger.info(StringUtils.upperCase("ExampleNodePlugin"))
     }
 
     override fun stop() {
-        logger.info("ExampleNodePlugin.stop()")
-    }
 
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(ExampleNodePlugin::class.java)
     }
 
     @Extension
