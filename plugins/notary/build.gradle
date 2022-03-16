@@ -1,0 +1,34 @@
+plugins {
+    id 'org.jetbrains.kotlin.kapt'
+}
+
+// NOTE: Apart from the warning, missing the option seems to affect the runtime performance.
+//  "Annotation processors discovery from compile classpath is deprecated.
+//  Set 'kapt.includeCompileClasspath = false' to disable discovery."
+kapt.includeCompileClasspath = false
+
+dependencies {
+    compileOnly project(":api")
+    compileOnly "org.pf4j:pf4j:${pf4jVersion}"
+    kapt "org.pf4j:pf4j:${pf4jVersion}"
+
+    // FIXME: this causes SLF4 warnings and replacing it with compileOnly causes a runtime error.
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "io.github.resilience4j:resilience4j-retry:$resilience4jVersion"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+
+    implementation "net.corda:corda-ledger:$cordaAPIVersion"
+    implementation "net.corda:corda-application:$cordaAPIVersion"
+    implementation "net.corda:corda-crypto-api:$cordaAPIVersion"
+    implementation "net.corda:corda-flows:$cordaAPIVersion"
+
+    testImplementation project(":api")
+    testImplementation "org.pf4j:pf4j:${pf4jVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
+    testImplementation "com.github.stefanbirkner:system-lambda:1.2.1"
+}
+
+test {
+    useJUnitPlatform()
+}

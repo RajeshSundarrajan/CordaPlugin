@@ -52,8 +52,7 @@ pluginManagement {
     plugins {
         id 'org.jetbrains.kotlin.jvm' version kotlinVersion
         id 'io.gitlab.arturbosch.detekt' version detektPluginVersion
-        id 'com.r3.internal.gradle.plugins.r3ArtifactoryPublish' version internalPublishVersion
-    }
+        id 'com.r3.internal.gradle.plugins.r3ArtifactoryPublish' version internalPublishVersion }
 }
 
 dependencyResolutionManagement {
@@ -100,3 +99,5 @@ include 'plugins:mgm'
 include 'plugins:plugin1'
 include 'plugins:plugin2'
 
+// Experimental notary CLI plugin for running notary tests such as double-spend and performance tests.
+include 'plugins:notary'
