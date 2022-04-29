@@ -114,6 +114,7 @@ include 'plugins:plugin2'
 
 
 
+
 gradleEnterprise {
     server = gradleEnterpriseUrl
     allowUntrustedServer = false
@@ -128,5 +129,9 @@ gradleEnterprise {
             accessKey = apiKey
         }
     }
+}
+
+if (file('../corda-internal-gradle-plugins').exists()) {
+    includeBuild('../corda-internal-gradle-plugins')
 }
 
